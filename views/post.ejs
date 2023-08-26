@@ -1,0 +1,8 @@
+<%- include("partials/header.ejs") %>
+    <h1><%= blog.name %></h1>
+    <p><%= blog.content %></p>
+    <form action="/delete" method="post">
+        <button class="btn btn-lg delete">delete</button>
+        <input type="hidden" name="blogid" value="<%= blog._id %>">
+    </form>
+<%- include("partials/footer.ejs") %>
