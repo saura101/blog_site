@@ -22,7 +22,9 @@ const blogSchema = new mongoose.Schema ({
   content : {
     type : String,
     required : [true]
-  }
+  },
+  author : String,
+  date : Date
 });
 
 const Blog = mongoose.model("Blog",blogSchema);
@@ -35,6 +37,8 @@ app.use(express.static("public"));
 
 let posts=[];
 
+
+//get all posts
 app.get("/", async(req,res)=> {
   const data = await Blog.find({});
   posts=data;
@@ -53,43 +57,59 @@ app.get("/contact", (req,res)=> {
   res.render("contact.ejs", {con :contactContent });
 });
 
+//compose new post
 app.get("/compose" ,(req,res)=> {
   res.render("compose.ejs");
 });
 
-app.get("/posts/:text" ,(req,res)=> {
-  //console.log(posts.length);
-  for(let i=0;i<posts.length;i++)
-  {
-    if(_.lowerCase(posts[i].name)===_.lowerCase(req.params.text))
-    {
-      res.render("post.ejs", { blog : posts[i]});
-      break;
-    }
-  }
+//get specific posts by name
+app.get("/posts/:id" ,async(req,res)=> {
+  const resp = await Blog.findById(req.params.id)
+  res.render("post.ejs", { blog : resp});
 });
 
+//add post
 app.post("/compose", async(req,res) =>{
   //console.log(req.body.blog);
-  const post={
-    title : req.body.blogtitle,
-    blog : req.body.blog
-  };
-  //posts.push(post);
   const blog = new Blog ({
-    name : post.title,
-    content : post.blog
+    name : req.body.blogtitle,
+    content :  req.body.blog,
+    author : req.body.author,
+    date : new Date()
   });
-
   await blog.save();
-
   res.redirect("/");
 });
 
-app.post("/delete", async(req,res)=> {
-  console.log(req.body);
+//update existing post
+app.get("/update/:id",  async(req,res) => {
+  const blog = await Blog.findById(req.params.id);
+  res.render("compose.ejs", {post : blog, title : "Update"});
+});
+
+
+//save the update
+app.post("/update/:id", async(req,res) => {
+  const blog = await Blog.findById(req.params.id);
+  //console.log(blog);
+  blog.name = req.body.blogtitle;
+  blog.content = req.body.blog;
+  blog.author = req.body.author
+  blog.date = new Date();
+  //console.log(blog);
   try {
-    await Blog.findByIdAndRemove(req.body.blogid);
+    await blog.save();
+  } catch (error) {
+    console.log(error.message);
+  }
+  res.redirect("/posts/"+blog._id);
+});
+
+//delete post by id
+app.get("/delete/:id", async(req,res)=> {
+  const id=req.params.id;
+  try {
+    await Blog.findByIdAndRemove(id);
     console.log("successfully deleted!");
     res.redirect("/");
   } catch(err) {

@@ -1,13 +1,13 @@
 <%- include("partials/header.ejs") %>
 <h1 id="hme">Home</h1>
-<p>The blog’s purpose is to help people solve problems while also earning money for the author. <br> It is uncommon for a blog to be run solely as a journal, without considering the needs of the target audience or the goal of making profit. <br> Your blog’s main landing page has four main functions: <br> 1.Attract and hold your visitors’. <br> 2.Inform users about your business. <br> 3. Convince people to sign up for your email list. <br> 4.Promote sponsored content or monetize your efforts with ad codes.</p>
+<p class="con">The blog’s purpose is to help people solve problems while also earning money for the author. <br> It is uncommon for a blog to be run solely as a journal, without considering the needs of the target audience or the goal of making profit. <br> Your blog’s main landing page has four main functions: <br> 1.Attract and hold your visitors’. <br> 2.Inform users about your business. <br> 3. Convince people to sign up for your email list. <br> 4.Promote sponsored content or monetize your efforts with ad codes.</p>
 <br><br>
 <% for(let i=0;i<blogs.length;i++) { %>
     <h1><%= blogs[i].name %></h1>
-    <p><%= blogs[i].content.substr(0, 100)%> 
-        <% if(blogs[i].content.length > 100) {%> 
-        ...<a href="/posts/<%=blogs[i].name%>" >Read more</a> </p>
-        <% } %>
+    <p class="con"><%= blogs[i].content.substr(0, 100)%> 
+        <% //if(blogs[i].content.length > 100) {%> 
+        ...<a href="/posts/<%=blogs[i]._id%>" >Read more</a> </p>
+        <% //} %>
 <% } %>
 
 
