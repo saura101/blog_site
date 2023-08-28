@@ -7,17 +7,29 @@
 <% } else { %>
 <h1>Compose</h1>
 <% } %>
-<% if(!locals.post) {%>
+<% if(!locals.title) {%>
   <form action="/compose" method="post" class="" enctype="multipart/form-data">
     <div class="form-group">
       <label for="blogtitle">Title</label>
-      <input type="text" name="blogtitle" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+      <% if(locals.post) {%>
+        <input type="text" name="blogtitle" class="form-control" value="<%= post.name %>">
+      <% } else { %>
+        <input type="text" name="blogtitle" class="form-control">
+      <% } %>
     </div>
     <div class="form-group">
       <label for="blog">Post</label>
-      <textarea name="blog" id="" cols="" rows="8" class="form-control"></textarea>
+      <% if(locals.post) {%>
+        <textarea name="blog" id="" cols="" rows="8" class="form-control"><%= post.content %></textarea>
+      <% } else { %>
+        <textarea name="blog" id="" cols="" rows="8" class="form-control"></textarea>
+        <% } %>
       <label for="blogtitle">Author</label>
-      <input type="text" name="author" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+      <% if(locals.post) {%>
+        <input type="text" name="author" class="form-control" value="<%= post.author %>">
+      <% } else { %>
+        <input type="text" name="author" class="form-control">
+      <% } %>
       <label for="image">Image</label>
       <input type="file" name="image" accept=".jpg, .png, .jpeg">
     </div>

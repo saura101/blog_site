@@ -117,6 +117,7 @@ app.post("/compose", upload.single("image"), async(req,res) =>{
     await blog.save();
     res.redirect("/");
   }catch(err) {
+    console.log(blog);
     res.render("compose.ejs", {post : blog , error : err.message});
   }
 });
