@@ -1,27 +1,38 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 
-<head>
+<head class="head" id="head">
   <meta charset="utf-8">
   <title>Daily Journal</title>
   <meta charset="utf-8">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="/css/styles.css">
   <link rel="icon" type="image/x-icon" href="/logo.jpg">
-  <nav class="navbar navbar-default">
-    <div class="container">
-      <div class="navbar-header">
-        <p class="navbar-brand">DAILY JOURNAL</p>
+</head>
+<body>
+    <nav class="navbar navbar-default" id="navbar">
+      <div class="container">
+        <div class="navbar-header">
+          <p class="navbar-brand">DAILY JOURNAL</p>
+        </div>
+          <ul class="nav navbar-nav navbar-right">
+            <!-- 6 -->
+            <li id="home"><a href="/">HOME</a></li>
+            <li id="about"><a href="/about">ABOUT US</a></li>
+            <li id="contact"><a href="/contact">CONTACT US</a></li>
+            <li><button class="btn btn-lg"><a class="btnlink" href="/compose">ADD BLOG</a></button></li>
+            <li>
+              <div class="check-div">
+                <input type="checkbox" class="checkbox" id="checkbox">
+                <label for="checkbox" class="checkbox-label">
+                  <i class="fas fa-moon"></i>
+                  <i class="fas fa-sun"></i>
+                  <span class="ball"></span>
+                </label>
+              </div>
+            </li>
+          </ul>
       </div>
-        <ul class="nav navbar-nav navbar-right">
-          <!-- 6 -->
-          <li id="home"><a href="/">HOME</a></li>
-          <li id="about"><a href="/about">ABOUT US</a></li>
-          <li id="contact"><a href="/contact">CONTACT US</a></li>
-          <li><button class="btn btn-lg"><a class="btnlink" href="/compose">ADD BLOG</a></button></li>
-        </ul>
-    </div>
-  </nav>
-
-  <body>
+    </nav>
     <div class="container-fluid">
