@@ -1,8 +1,17 @@
 <%- include("partials/header.ejs") %>
     <h1><%= blog.name %></h1>
-    <p><%= blog.content %></p>
-    <form action="/delete" method="post">
-        <button class="btn btn-lg delete">delete</button>
-        <input type="hidden" name="blogid" value="<%= blog._id %>">
-    </form>
+    <br>
+    <p class="con gray"><%= blog.date %></p>
+    <br>
+    <div class="contain">
+        <p class="con"><%= blog.content %></p>
+        <% if(blog.image.data) { %>
+            <img src="data:image/<%= blog.image.contentType%>;base64,<%= blog.image.data.toString('base64')%>" alt="blog_image" width="35%" class="blog_img">
+        <% } %>
+    </div>
+    <br>
+    <p class="con gray">authored by : <%= blog.author %></p>
+    <br>
+    <a href="/update/<%= blog._id %>" class="btn btn-lg edit">edit</a>
+    <a href="/delete/<%= blog._id %>" class="btn btn-lg delete">delete</a>
 <%- include("partials/footer.ejs") %>

@@ -1,15 +1,42 @@
 <%- include("partials/header.ejs") %>
+<% if(locals.title) {%>
+<h1><%= title %></h1>
+<% } else { %>
 <h1>Compose</h1>
-<form action="/compose" method="post" class="">
+<% } %>
+<% if(!locals.post) {%>
+  <form action="/compose" method="post" class="" enctype="multipart/form-data">
     <div class="form-group">
       <label for="blogtitle">Title</label>
       <input type="text" name="blogtitle" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
     </div>
     <div class="form-group">
       <label for="blog">Post</label>
-      <textarea name="blog" id="" cols="" rows="5" class="form-control"></textarea>
+      <textarea name="blog" id="" cols="" rows="8" class="form-control"></textarea>
+      <label for="blogtitle">Author</label>
+      <input type="text" name="author" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+      <label for="image">Image</label>
+      <input type="file" name="image" accept=".jpg, .png, .jpeg">
     </div>
     <button type="submit" class="btn btn-primary">Publish</button>
   </form>
+<% } else {%>
+  <form action="/update/<%= post._id%>" method="post" class="" enctype="multipart/form-data">
+    <div class="form-group">
+      <label for="blogtitle">Title</label>
+      <input type="text" name="blogtitle" class="form-control" value="<%= post.name %>">
+    </div>
+    <div class="form-group">
+      <label for="blog">Post</label>
+      <textarea name="blog" id="" cols="" rows="8" class="form-control" ><%= post.content %></textarea>
+      <label for="blogtitle">Author</label>
+      <input type="text" name="author" class="form-control" value="<%= post.author %>">
+      <label for="image">Image</label>
+      <input type="file" name="image" accept=".jpg, .png, .jpeg" >
+    </div>
+    <button type="submit" class="btn btn-primary">Save</button>
+  </form>
+<% } %>
+
 
 <%- include("partials/footer.ejs") %>
