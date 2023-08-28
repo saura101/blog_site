@@ -1,4 +1,7 @@
 <%- include("partials/header.ejs") %>
+<% if(locals.error) {%>
+  <div ><p class="err"><%= error %></p></div>
+<% } %>
 <% if(locals.title) {%>
 <h1><%= title %></h1>
 <% } else { %>

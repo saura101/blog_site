@@ -113,8 +113,12 @@ app.post("/compose", upload.single("image"), async(req,res) =>{
       contentType : req.file.mimetype
     }
   });
-  await blog.save();
-  res.redirect("/");
+  try {
+    await blog.save();
+    res.redirect("/");
+  }catch(err) {
+    res.render("compose.ejs", {post : blog , error : err.message});
+  }
 });
 
 //update existing post
