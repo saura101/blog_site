@@ -130,8 +130,11 @@ app.post("/update/:id", upload.single("image"), async(req,res) => {
   blog.content = req.body.blog;
   blog.author = req.body.author
   blog.date = new Date();
-  blog.image.data = fs.readFileSync(path.join(__dirname + "/public/uploads/" + req.file.filename));
-  blog.image.contentType = req.file.mimetype;
+  if(blog.image.filename) {
+    blog.image.data = fs.readFileSync(path.join(__dirname + "/public/uploads/" + req.file.filename));
+    blog.image.contentType = req.file.mimetype;
+  }
+
   //console.log(blog);
   try {
     await blog.save();
