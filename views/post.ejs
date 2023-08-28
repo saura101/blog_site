@@ -3,7 +3,12 @@
     <br>
     <p class="con gray"><%= blog.date %></p>
     <br>
-    <p class="con"><%= blog.content %></p>
+    <div class="contain">
+        <p class="con"><%= blog.content %></p>
+        <% if(blog.image.data) { %>
+            <img src="data:image/<%= blog.image.contentType%>;base64,<%= blog.image.data.toString('base64')%>" alt="blog_image" width="35%" class="blog_img">
+        <% } %>
+    </div>
     <br>
     <p class="con gray">authored by : <%= blog.author %></p>
     <br>

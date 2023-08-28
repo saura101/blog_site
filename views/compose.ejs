@@ -5,7 +5,7 @@
 <h1>Compose</h1>
 <% } %>
 <% if(!locals.post) {%>
-  <form action="/compose" method="post" class="">
+  <form action="/compose" method="post" class="" enctype="multipart/form-data">
     <div class="form-group">
       <label for="blogtitle">Title</label>
       <input type="text" name="blogtitle" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
@@ -15,11 +15,13 @@
       <textarea name="blog" id="" cols="" rows="8" class="form-control"></textarea>
       <label for="blogtitle">Author</label>
       <input type="text" name="author" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+      <label for="image">Image</label>
+      <input type="file" name="image" accept=".jpg, .png, .jpeg">
     </div>
     <button type="submit" class="btn btn-primary">Publish</button>
   </form>
 <% } else {%>
-  <form action="/update/<%= post._id%>" method="post" class="">
+  <form action="/update/<%= post._id%>" method="post" class="" enctype="multipart/form-data">
     <div class="form-group">
       <label for="blogtitle">Title</label>
       <input type="text" name="blogtitle" class="form-control" value="<%= post.name %>">
@@ -29,6 +31,8 @@
       <textarea name="blog" id="" cols="" rows="8" class="form-control" ><%= post.content %></textarea>
       <label for="blogtitle">Author</label>
       <input type="text" name="author" class="form-control" value="<%= post.author %>">
+      <label for="image">Image</label>
+      <input type="file" name="image" accept=".jpg, .png, .jpeg" >
     </div>
     <button type="submit" class="btn btn-primary">Save</button>
   </form>

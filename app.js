@@ -6,6 +6,30 @@ import bodyParser from "body-parser";
 import _ from "lodash";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
+import multer from "multer";
+import fs from "fs";
+import path from "path";
+import { dirname } from "path";
+import { fileURLToPath } from "url";
+
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+
+//instead of dest we use diskstorage to upload
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, './public/uploads')
+  },
+  filename: function (req, file, cb) {
+    const uniqueSuffix = req.body.blogtitle
+    cb(null, uniqueSuffix + "." + file.originalname.split(".").pop())
+  }
+});
+
+const upload = multer({ 
+  storage : storage,
+  limits : {fileSize : 3000000 }
+});
 
 dotenv.config();
 const homeStartingContent = ".";
@@ -24,7 +48,11 @@ const blogSchema = new mongoose.Schema ({
     required : [true]
   },
   author : String,
-  date : Date
+  date : Date,
+  image : {
+    data : Buffer,
+    contentType : String
+  }
 });
 
 const Blog = mongoose.model("Blog",blogSchema);
@@ -65,17 +93,23 @@ app.get("/compose" ,(req,res)=> {
 //get specific posts by name
 app.get("/posts/:id" ,async(req,res)=> {
   const resp = await Blog.findById(req.params.id)
+  //console.log(resp);
   res.render("post.ejs", { blog : resp});
 });
 
 //add post
-app.post("/compose", async(req,res) =>{
+app.post("/compose", upload.single("image"), async(req,res) =>{
   //console.log(req.body.blog);
+  console.log(req.body, req.file);
   const blog = new Blog ({
     name : req.body.blogtitle,
     content :  req.body.blog,
     author : req.body.author,
-    date : new Date()
+    date : new Date(),
+    image : {
+      data : fs.readFileSync(path.join(__dirname + "/public/uploads/" + req.file.filename)),
+      contentType : req.file.mimetype
+    }
   });
   await blog.save();
   res.redirect("/");
@@ -89,13 +123,15 @@ app.get("/update/:id",  async(req,res) => {
 
 
 //save the update
-app.post("/update/:id", async(req,res) => {
+app.post("/update/:id", upload.single("image"), async(req,res) => {
   const blog = await Blog.findById(req.params.id);
   //console.log(blog);
   blog.name = req.body.blogtitle;
   blog.content = req.body.blog;
   blog.author = req.body.author
   blog.date = new Date();
+  blog.image.data = fs.readFileSync(path.join(__dirname + "/public/uploads/" + req.file.filename));
+  blog.image.contentType = req.file.mimetype;
   //console.log(blog);
   try {
     await blog.save();
